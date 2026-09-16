@@ -1,3 +1,5 @@
+import sqlite3
+
 import pytest
 
 from store import Store
@@ -45,3 +47,32 @@ def test_transcript_survives_reopening(tmp_path):
     with Store(path) as second:
         assert second.latest_session() == session
         assert second.messages(session)[0]["content"] == "remember me"
+
+
+def test_legacy_database_is_named_without_changing_transcripts(tmp_path):
+    path = tmp_path / "legacy.db"
+    with sqlite3.connect(path) as db:
+        db.executescript("""
+            CREATE TABLE sessions (id INTEGER PRIMARY KEY, model TEXT NOT NULL,
+                started_at TEXT NOT NULL DEFAULT (datetime('now')));
+            CREATE TABLE messages (id INTEGER PRIMARY KEY, session_id INTEGER NOT NULL,
+                role TEXT NOT NULL, content TEXT NOT NULL,
+                created_at TEXT NOT NULL DEFAULT (datetime('now')));
+            INSERT INTO sessions (id, model) VALUES (42, 'local');
+            INSERT INTO messages (session_id, role, content) VALUES (42, 'user', 'Keep me');
+            INSERT INTO messages (session_id, role, content) VALUES (42, 'assistant', 'Kept');
+        """)
+    with Store(path) as store:
+        saved = store.chatbot(42)
+        assert saved["name"]
+        assert store.messages(42)[0]["content"] == "Keep me"
+        assert len(store.chatbots("local")) == 1
+    with Store(path) as store:
+        assert store.chatbot(42) == saved
+
+
+def test_random_name_collisions_get_unique_suffixes(store, monkeypatch):
+    monkeypatch.setattr("store.secrets.choice", lambda choices: choices[0])
+    first = store.start_session("local")
+    second = store.start_session("local")
+    assert store.chatbot(first)["name"] != store.chatbot(second)["name"]

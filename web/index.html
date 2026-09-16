@@ -13,17 +13,19 @@
       <header class="header">
         <a class="brand" href="/" aria-label="Chatbot home"><span class="brand-mark" aria-hidden="true">✳</span> Chatbot</a>
         <div class="controls">
+          <label class="sr-only" for="chatbot">Chatbot</label>
+          <select id="chatbot" disabled><option value="" disabled selected>Choose a chatbot…</option></select>
           <label class="sr-only" for="model">Model</label>
           <select id="model" disabled><option>Loading models…</option></select>
-          <button id="new-chat" class="secondary" type="button" disabled>New chat <span aria-hidden="true">＋</span></button>
+          <button id="new-chat" class="secondary" type="button" disabled>New chatbot <span aria-hidden="true">＋</span></button>
         </div>
       </header>
 
       <main id="conversation" class="conversation" aria-label="Conversation">
         <section id="welcome" class="welcome">
           <div class="eyebrow">A LITTLE SPACE TO THINK</div>
-          <h1>What’s on your mind?</h1>
-          <p>Ask a question, explore an idea, or work through something together.</p>
+          <h1 id="welcome-heading">What’s on your mind?</h1>
+          <p id="introduction">Ask a question, explore an idea, or work through something together.</p>
           <div class="suggestions">
             <button type="button" data-prompt="Explain a complex idea in simple terms. Ask me which topic I'd like to explore."><span aria-hidden="true">✧</span> Explain something</button>
             <button type="button" data-prompt="Help me brainstorm ideas for a project. Ask me what I'm working on."><span aria-hidden="true">↗</span> Explore an idea</button>
@@ -41,7 +43,7 @@
           <textarea id="message" rows="1" maxlength="100000" placeholder="Ask anything…" disabled></textarea>
           <button id="send" class="send" type="submit" aria-label="Send message" disabled>↑</button>
         </form>
-        <p class="hint">Enter to send · Shift + Enter for a new line <span>Chats stay in this tab until you refresh.</span></p>
+        <p class="hint">Enter to send · Shift + Enter for a new line <span>Chats are saved. Idle sessions resume when you send.</span></p>
       </footer>
     </div>
   </body>

@@ -11,7 +11,7 @@ button, select, textarea, a { -webkit-tap-highlight-color: transparent; }
 .header { padding: 26px 40px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .brand { display: flex; align-items: center; gap: 11px; color: inherit; text-decoration: none; font-size: 19px; font-weight: 650; letter-spacing: -.6px; }
 .brand-mark { display: grid; place-items: center; height: 34px; width: 34px; color: #f8f9f5; background: #3f5038; border-radius: 11px; font-size: 27px; }
-.controls { display: flex; align-items: center; gap: 12px; }
+.controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 select, .secondary { border: 1px solid #dfe2d9; border-radius: 9px; background: transparent; padding: 10px 12px; color: #51574c; font-size: 13px; }
 select { max-width: 220px; }
 .secondary span { padding-left: 8px; }
@@ -52,7 +52,8 @@ textarea:focus-visible { outline: none; }
 @media (max-width: 600px) {
   .header { padding: 20px; flex-wrap: wrap; gap: 16px; }
   .brand { font-size: 17px; }
-  .controls { gap: 7px; }
+  .controls { gap: 7px; width: 100%; }
+  #chatbot { max-width: 100%; width: 100%; }
   select, .secondary { padding: 9px; font-size: 12px; }
   select { max-width: 145px; }
   .welcome { padding: 55px 0; }
