@@ -25,7 +25,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", default=config["default"], choices=sorted(models))
     parser.add_argument("--list", action="store_true", help="show configured models and exit")
-    parser.add_argument("--resume", action="store_true", help="continue the most recent session")
+    parser.add_argument("--new", action="store_true", help="start a new session instead of resuming")
     args = parser.parse_args()
 
     if args.list:
@@ -40,7 +40,7 @@ def main():
         parser.exit(1, f"Could not load model: {error}\n")
 
     with Store(DB_PATH) as store:
-        session = store.latest_session() if args.resume else None
+        session = None if args.new else store.latest_session()
         history = store.messages(session) if session else []
         if session is None:
             session = store.start_session(args.model)
