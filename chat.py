@@ -31,7 +31,8 @@ def main():
         return
 
     ask = backend.create(models[args.model])
-    print(f"Model: {args.model}. Type /quit to exit.")
+    print(f"Model: {args.model}. Type /reset to forget, /quit to exit.")
+    history = []
 
     while True:
         try:
@@ -44,11 +45,21 @@ def main():
             continue
         if message in ("/quit", "/exit"):
             return
+        if message == "/reset":
+            history.clear()
+            print("History cleared.")
+            continue
 
+        history.append({"role": "user", "content": message})
         try:
-            print(f"Bot: {ask(message)}")
+            reply = ask(history)
         except Exception as error:
+            history.pop()
             print(f"Request failed: {error}")
+            continue
+
+        history.append({"role": "assistant", "content": reply})
+        print(f"Bot: {reply}")
 
 
 if __name__ == "__main__":

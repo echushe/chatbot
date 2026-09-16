@@ -3,6 +3,8 @@
 import os
 import sys
 
+from ..history import trim
+
 
 def create(config):
     # Imported here, not at module scope, so environments without the
@@ -36,9 +38,20 @@ def create(config):
     end_token = tokenizer.convert_tokens_to_ids("<|eot_id|>")
     end_id = end_token if end_token != tokenizer.unk_token_id else tokenizer.eos_token_id
 
-    def ask(message):
+    # max_seq_len is compiled into the engine: overflowing it raises rather
+    # than truncating, so the prompt must leave room for the whole reply.
+    budget = config["max_seq_len"] - config["max_new_tokens"]
+
+    def count_tokens(messages):
+        return len(
+            tokenizer.apply_chat_template(
+                messages, add_generation_prompt=True, tokenize=True
+            )
+        )
+
+    def ask(messages):
         prompt_ids = tokenizer.apply_chat_template(
-            [{"role": "user", "content": message}],
+            trim(messages, budget, count_tokens),
             add_generation_prompt=True,
             tokenize=True,
         )
