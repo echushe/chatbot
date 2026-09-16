@@ -1,7 +1,6 @@
 """Local inference against a compiled TensorRT-LLM engine."""
 
 import os
-import sys
 
 from ..history import trim
 
@@ -17,7 +16,7 @@ def create(config):
         if PYTHON_BINDINGS:
             from tensorrt_llm.runtime import ModelRunnerCpp
     except ImportError as error:
-        sys.exit(f"The local model needs the trtllm110 environment ({error}).")
+        raise RuntimeError(f"The local model needs the trtllm110 environment ({error}).") from error
 
     tokenizer = AutoTokenizer.from_pretrained(os.path.expanduser(config["tokenizer_dir"]))
     if tokenizer.pad_token_id is None:

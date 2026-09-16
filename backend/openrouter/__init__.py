@@ -1,7 +1,6 @@
 """Chat completions through the OpenRouter HTTP API."""
 
 import os
-import sys
 
 import requests
 
@@ -19,7 +18,7 @@ def estimate_tokens(messages):
 def create(config):
     api_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
     if not api_key:
-        sys.exit("OPENROUTER_API_KEY is not set.")
+        raise RuntimeError("OPENROUTER_API_KEY is not set.")
 
     def ask(messages):
         response = requests.post(

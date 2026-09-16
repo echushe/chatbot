@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <a class="brand" href="/" aria-label="Chatbot home"><span class="brand-mark" aria-hidden="true">✳</span> Chatbot</a>
+        <div class="controls">
+          <label class="sr-only" for="model">Model</label>
+          <select id="model" disabled><option>Loading models…</option></select>
+          <button id="new-chat" class="secondary" type="button" disabled>New chat <span aria-hidden="true">＋</span></button>
+        </div>
+      </header>
+
+      <main id="conversation" class="conversation" aria-label="Conversation">
+        <section id="welcome" class="welcome">
+          <div class="eyebrow">A LITTLE SPACE TO THINK</div>
+          <h1>What’s on your mind?</h1>
+          <p>Ask a question, explore an idea, or work through something together.</p>
+          <div class="suggestions">
+            <button type="button" data-prompt="Explain a complex idea in simple terms. Ask me which topic I'd like to explore."><span aria-hidden="true">✧</span> Explain something</button>
+            <button type="button" data-prompt="Help me brainstorm ideas for a project. Ask me what I'm working on."><span aria-hidden="true">↗</span> Explore an idea</button>
+            <button type="button" data-prompt="Help me solve a coding problem. Ask me what language I'm using and what I'm trying to do."><span aria-hidden="true">⌘</span> Work on some code</button>
+          </div>
+        </section>
+        <div id="messages" class="messages" role="log" aria-label="Chat messages" aria-live="polite" aria-relevant="additions"></div>
+      </main>
+
+      <footer class="footer">
+        <div id="status" class="status" role="status" aria-live="polite">Connecting…</div>
+        <div id="error" class="error" role="alert" hidden></div>
+        <form id="chat-form" class="composer">
+          <label class="sr-only" for="message">Your message</label>
+          <textarea id="message" rows="1" maxlength="100000" placeholder="Ask anything…" disabled></textarea>
+          <button id="send" class="send" type="submit" aria-label="Send message" disabled>↑</button>
+        </form>
+        <p class="hint">Enter to send · Shift + Enter for a new line <span>Chats stay in this tab until you refresh.</span></p>
+      </footer>
+    </div>
+  </body>
+</html>

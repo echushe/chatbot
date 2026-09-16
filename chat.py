@@ -30,7 +30,10 @@ def main():
             print(f"{default} {name:12} {entry.get('model') or entry['engine_dir']}")
         return
 
-    ask = backend.create(models[args.model])
+    try:
+        ask = backend.create(models[args.model])
+    except Exception as error:
+        parser.exit(1, f"Could not load model: {error}\n")
     print(f"Model: {args.model}. Type /reset to forget, /quit to exit.")
     history = []
 

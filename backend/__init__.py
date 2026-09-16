@@ -1,4 +1,4 @@
-"""Model backends, each exposing create(config) -> ask(message)."""
+"""Model backends, each exposing create(config) -> ask(messages)."""
 
 from . import openrouter, trtllm
 
